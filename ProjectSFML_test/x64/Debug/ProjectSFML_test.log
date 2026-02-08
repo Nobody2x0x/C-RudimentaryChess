@@ -1,0 +1,10 @@
+﻿  Game.cpp
+C:\Users\ducan\source\External\include\SFML\System\Exception.hpp(41,47): warning C4275: non dll-interface class 'std::runtime_error' used as base for dll-interface class 'sf::Exception'
+  (compiling source file 'Game.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdexcept(100,30):
+      see declaration of 'std::runtime_error'
+      C:\Users\ducan\source\External\include\SFML\System\Exception.hpp(41,23):
+      see declaration of 'sf::Exception'
+  
+C:\Users\ducan\source\repos\ProjectSFML_test\Game.cpp(150,19): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  ProjectSFML_test.vcxproj -> C:\Users\ducan\source\repos\ProjectSFML_test\x64\Debug\ProjectSFML_test.exe
