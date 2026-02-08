@@ -7,18 +7,18 @@ void KingMovementStrategy::addCastlingMove(std::vector<Position>& possibleMoves,
 
 	if ((pieceColor == WHITE && row == 7 && col == 4) || (pieceColor == BLACK && row == 0 && col == 4))
 	{
-		Position whiteSideCastle = Position(row, 6);
+		Position kingSideCastle = Position(row, 6);
 
-		if (canCastle(board, currentPosition, whiteSideCastle))
+		if (canCastle(board, currentPosition, kingSideCastle))
 		{
-			possibleMoves.push_back(whiteSideCastle);
+			possibleMoves.push_back(kingSideCastle);
 		}
 
-		Position blackSideCastle = Position(row, 2);
+		Position queenSideCastle = Position(row, 2);
 
-		if (canCastle(board, currentPosition, blackSideCastle))
+		if (canCastle(board, currentPosition, queenSideCastle))
 		{
-			possibleMoves.push_back(blackSideCastle);
+			possibleMoves.push_back(queenSideCastle);
 		}
 	}
 }
@@ -34,12 +34,12 @@ bool KingMovementStrategy::canCastle(const Board& board, const Position& from, c
 
 	if (!hasKingMoved) return false;
 
-	bool isWhiteSide = to.getCol() == 6;
-	bool isBlackSide = to.getCol() == 2;
+	bool isKingSide = to.getCol() == 6;
+	bool isQueenSide = to.getCol() == 2;
 
-	if (!isWhiteSide && !isBlackSide) return false;
+	if (!isKingSide && !isQueenSide) return false;
 
-	int rookCol = isWhiteSide ? 7 : 0;
+	int rookCol = isKingSide ? 7 : 0;
 
 	Position rookPos = Position(row, rookCol);
 

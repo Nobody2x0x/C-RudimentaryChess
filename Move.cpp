@@ -136,13 +136,13 @@ bool Move::executeCastling(Board& board)
 {
 	castling = true;
 	int row = from.getRow();
-	bool isWhiteSide = to.getCol() == 6;
+	bool isKingSide = to.getCol() == 6;
 
 	//Move the king
 	board.movePiece(from, to);
 
 	//Move the rook
-	if (isWhiteSide)
+	if (isKingSide)
 	{
 		Position rookFrom = Position(row, 7);
 		Position rookTo = Position(row, 5);
@@ -187,12 +187,12 @@ bool Move::undo(Board& board)
 bool Move::undoCastling(Board& board)
 {
 	int row = from.getRow();
-	bool isWhiteSide = to.getCol() == 6;
+	bool isKingSide = to.getCol() == 6;
 
 	//Move the king back
 	board.movePiece(to, from);
 	
-	if (isWhiteSide)
+	if (isKingSide)
 	{
 		Position rookFrom = Position(row, 5);
 		Position rookTo = Position(row, 7);
