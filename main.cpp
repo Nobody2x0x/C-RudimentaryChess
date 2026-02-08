@@ -33,6 +33,8 @@ int main()
 	bool isDragging = false;
 	sf::Vector2f offset;
 
+	std::vector<Position>* possibleMoves = new std::vector<Position>(); //Possible move of a piece
+
 	while (window.isOpen()) //Chess moveing scheme -> MousePosition / tileWidth( = 120 ) = Position();
 	{
 
@@ -74,11 +76,12 @@ int main()
 			}
 		}
 			
-		if (positions.size() >= 2)
+		if (positions.size() >= 1)
 		{
 			Game& activeGame = gameController.getGame();
 
 			Piece piece = game.getBoard().getTile(positions[0]).getPiece();
+
 			if (piece.getType() == NONE)
 			{
 				std::cout << "There's no piece here!";
@@ -93,17 +96,21 @@ int main()
 			}
 			else
 			{
-				Move move(positions[0], positions[1], &game.getCurrentPlayer());
-				if (gameController.playMove(move))
+				*possibleMoves = piece.getMovementStrategy()->getPossibleMoves(positions[0], activeGame.getBoard()); //Possible moves of the piece
+				if (positions.size() >= 2)
 				{
-					std::cout << "Move played!";
-				}
-				else
-				{
-					std::cout << "Invalid move!!";
-				}
+					Move move(positions[0], positions[1], &game.getCurrentPlayer());
+					if (gameController.playMove(move))
+					{
+						std::cout << "Move played!";
+					}
+					else
+					{
+						std::cout << "Invalid move!!";
+					}
 
-				positions.clear();
+					positions.clear();
+				}
 			}
 
 		}
@@ -121,6 +128,18 @@ int main()
 
 		window.clear();
 		gameController.displayBoard(window, texture);
+
+		if (positions.size() != 0) //If no piece is chosen, delete the old moves
+		{
+			for (Position pos : *possibleMoves)
+			{
+				sf::RectangleShape rect;
+				rect.setSize(sf::Vector2f(120.0f, 120.0f));
+				rect.setFillColor(sf::Color(226, 80, 80, 100));
+				rect.setPosition(sf::Vector2f({ pos.getCol() * 120.0f, pos.getRow() * 120.0f })); //This row and col is inverted, I don't intend to fix it
+				window.draw(rect);
+			}
+		}
 		/*window.draw(sprite);*/
 		window.display();
 	}

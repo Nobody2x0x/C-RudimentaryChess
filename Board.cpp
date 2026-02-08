@@ -94,6 +94,11 @@ void Board::printBoard(sf::RenderWindow& window, const sf::Texture& texture)
 	{
 		for (int j = 0; j < BOARD_SIZE; j++) //j == rows -> Still fukced sth up
 		{
+			//Get the tiles' details
+			ChessTile tile = tiles[j][i];
+			Piece piece = tile.getPiece();
+			PieceType type = piece.getType();
+			PieceColor color = piece.getColor();
 
 			if ((i + j) % 2 == 0)
 			{
@@ -107,12 +112,6 @@ void Board::printBoard(sf::RenderWindow& window, const sf::Texture& texture)
 				boardRect.setFillColor(sf::Color(222, 184, 135));
 				boardRect.setPosition(sf::Vector2f({ i * width, j * width }));
 			}
-
-			//Get the tiles' details
-			ChessTile tile = tiles[j][i];
-			Piece piece = tile.getPiece();
-			PieceType type = piece.getType();
-			PieceColor color = piece.getColor();
 
 			//Check for symbol and color
 			switch (type)
