@@ -5,6 +5,7 @@
 #include "Position.h"
 #include "Piece.h"
 #include "Player.h"
+#include "PieceInitialize.h"
 #include <cmath>
 
 class Player;

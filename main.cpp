@@ -13,6 +13,7 @@
 #include "PlayerStrategy.h"
 #include "HumanPlayerStrategy.h"
 #include "PieceColor.h"
+#include "PieceInitialize.h"
 #include <vector>
 
 int main()
@@ -34,6 +35,9 @@ int main()
 	sf::Vector2f offset;
 
 	std::vector<Position>* possibleMoves = new std::vector<Position>(); //Possible move of a piece
+
+	sf::RectangleShape aRect = sf::RectangleShape();
+	bool isChoosingPiece = false;
 
 	while (window.isOpen()) //Chess moveing scheme -> MousePosition / tileWidth( = 120 ) = Position();
 	{
@@ -96,7 +100,26 @@ int main()
 			}
 			else
 			{
+				if (piece.getType() == PAWN && (positions[0].getRow() == 0 || positions[0].getRow() == 7))
+				{
+					//Rect for initializing new piece
+					aRect.setSize(sf::Vector2f(120.0f, 120.0f));
+					aRect.setFillColor(sf::Color(86, 218, 112, 100));
+					aRect.setPosition(sf::Vector2f({ positions[0].getCol() * 120.0f, positions[0].getRow() * 120.0f }));
+					isChoosingPiece = true;
+				
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
+						activeGame.getBoard().setPieceOnBoard(positions[0], PieceInitialize::createPiece(QUEEN, piece.getColor()));
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::B))
+						activeGame.getBoard().setPieceOnBoard(positions[0], PieceInitialize::createPiece(BISHOP, piece.getColor()));
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
+						activeGame.getBoard().setPieceOnBoard(positions[0], PieceInitialize::createPiece(KNIGHT, piece.getColor()));
+					else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
+						activeGame.getBoard().setPieceOnBoard(positions[0], PieceInitialize::createPiece(ROOK, piece.getColor()));
+				}
+
 				*possibleMoves = piece.getMovementStrategy()->getPossibleMoves(positions[0], activeGame.getBoard()); //Possible moves of the piece
+
 				if (positions.size() >= 2)
 				{
 					Move move(positions[0], positions[1], &game.getCurrentPlayer());
@@ -110,6 +133,7 @@ int main()
 					}
 
 					positions.clear();
+					isChoosingPiece = false;
 				}
 			}
 
@@ -140,6 +164,9 @@ int main()
 				window.draw(rect);
 			}
 		}
+		//Only draw when choosing piece
+		if (isChoosingPiece)
+			window.draw(aRect);
 		/*window.draw(sprite);*/
 		window.display();
 	}

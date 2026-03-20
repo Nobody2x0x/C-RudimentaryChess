@@ -104,7 +104,7 @@ bool Move::execute(Board& board)
 		return false;
 
 	Piece piece = board.getPieceOnBoard(from);
-	if (piece == Piece() )// || piece.getColor() != player.getColor())
+	if (piece == Piece())// || piece.getColor() != player.getColor())
 	{
 		return false;
 	}
